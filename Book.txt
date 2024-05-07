@@ -1,0 +1,31 @@
+import streamlit as st
+import random
+
+def get_book_recommendation(genre):
+    books_by_genre = {
+        "fiction": ["To Kill a Mockingbird", "Pride and Prejudice", "The Great Gatsby"],
+        "mystery": ["The Da Vinci Code", "Gone Girl", "The Girl with the Dragon Tattoo"],
+        "fantasy": ["Harry Potter and the Philosopher's Stone", "The Hobbit", "A Game of Thrones"],
+        "science fiction": ["Dune", "1984", "The Martian"],
+        "non-fiction": ["Sapiens: A Brief History of Humankind", "Educated", "Becoming"]
+    }
+
+    genre = genre.lower()
+    for g, books in books_by_genre.items():
+        if genre in g:
+            return random.choice(books)
+    return "I'm sorry, I don't have recommendations for that genre."
+
+def main():
+    st.title("Book Recommendation Chatbot")
+
+    st.write("Hello! What genre of books are you interested in?")
+    user_input = st.text_input("User:")
+
+    if st.button("Send"):
+        st.write("User:", user_input)
+        recommendation = get_book_recommendation(user_input)
+        st.write("Chatbot:", recommendation)
+
+if __name__ == "__main__":
+    main()

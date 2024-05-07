@@ -1,0 +1,30 @@
+def job_scheduling():
+    jobs = []
+    n = int(input("Enter the number of jobs: "))
+
+    for i in range(n):
+        start_time = int(input(f"Enter start time for job {i + 1}: "))
+        finish_time = int(input(f"Enter finish time for job {i + 1}: "))
+        profit = int(input(f"Enter profit for job {i + 1}: "))
+        jobs.append((start_time, finish_time, profit))
+
+    # Sort jobs based on finish times
+    jobs.sort(key=lambda x: x[1])
+
+    schedule = []
+    max_profit = 0
+    current_time = 0
+
+    for job in jobs:
+        start_time, finish_time, profit = job
+        if start_time >= current_time:
+            schedule.append(job)
+            max_profit += profit
+            current_time = finish_time
+
+    return schedule, max_profit
+
+# Example usage:
+schedule, max_profit = job_scheduling()
+print("Schedule:", schedule)
+print("Max Profit:", max_profit)
