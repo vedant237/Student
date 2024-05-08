@@ -1,0 +1,71 @@
+class Graph:
+    def __init__(self):
+        self.adjacency_list = {}
+
+    def add_edge(self, u, v):
+        if u not in self.adjacency_list:
+            self.adjacency_list[u] = []
+        if v not in self.adjacency_list:
+            self.adjacency_list[v] = []
+        self.adjacency_list[u].append(v)
+        self.adjacency_list[v].append(u)
+
+    def get_neighbors(self, v):
+        return self.adjacency_list.get(v, [])
+
+    def get_vertices(self):
+        return list(self.adjacency_list.keys())
+
+class Traversal:
+    def __init__(self):
+        self.visited = {}
+
+    def dfs_recursive(self, graph, start):
+        self.visited = {v: False for v in graph.get_vertices()}
+        self._dfs_recursive_helper(graph, start)
+
+    def _dfs_recursive_helper(self, graph, vertex):
+        self.visited[vertex] = True
+        print(vertex, end=" ")
+
+        for neighbor in graph.get_neighbors(vertex):
+            if not self.visited[neighbor]:
+                self._dfs_recursive_helper(graph, neighbor)
+
+    def bfs(self, graph, start):
+        queue = [start]
+        self.visited = {v: False for v in graph.get_vertices()}
+        self.visited[start] = True
+
+        while queue:
+            vertex = queue.pop(0)
+            print(vertex, end=" ")
+
+            for neighbor in graph.get_neighbors(vertex):
+                if not self.visited[neighbor]:
+                    queue.append(neighbor)
+                    self.visited[neighbor] = True
+
+def create_graph():
+    g = Graph()
+    n = int(input("Enter the number of edges: "))
+    print("Enter edges in the format 'u v', where u and v are vertices connected by an edge:")
+    for _ in range(n):
+        u, v = map(int, input().split())
+        g.add_edge(u, v)
+    return g
+
+def main():
+    g = create_graph()
+    start_vertex = int(input("Enter the starting vertex for traversal: "))
+
+    traversal = Traversal()
+    
+    print("DFS Recursive:")
+    traversal.dfs_recursive(g, start_vertex)
+
+    print("\nBFS Recursive:")
+    traversal.bfs(g, start_vertex)
+
+if __name__ == "__main__":
+    main()
